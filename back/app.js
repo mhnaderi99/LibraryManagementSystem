@@ -23,7 +23,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // get all books
-app.get('/', async(req, res) => {
+app.get('/getAllBooks', async(req, res) => {
     console.log(req.query);
     const allBooks = await adminService.getAllBooks(1, 10);
     res.send(allBooks);
