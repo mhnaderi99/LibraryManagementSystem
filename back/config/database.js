@@ -3,7 +3,7 @@ const config = require('../config.json');
 const defaultConfig = config.dev;
 
 console.log(defaultConfig.databaseUsername);
-module.exports = new Sequelize('Library', defaultConfig.databaseUsername, defaultConfig.databasePassword, {
+module.exports = new Sequelize('library', defaultConfig.databaseUsername, defaultConfig.databasePassword, {
     host: 'localhost',
     port: defaultConfig.databasePort,
     dialect: 'postgres',
