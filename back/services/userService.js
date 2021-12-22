@@ -25,7 +25,7 @@ async function getAllCategories() {
     return await Categories.getAllCategories();
 }
 async function getCategoryByName(name, page, authorsInPage) {
-    return await Authors.getAuthorByName(name, page, authorsInPage);
+    return await Categories.findCategoryByName(name, page, authorsInPage);
 }
 
 module.exports = {

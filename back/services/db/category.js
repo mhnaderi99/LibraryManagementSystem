@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../../config/database');
 const Category = require('../../models/Category');
 
-function findCategoryByName(categoryName, page, categoriesInPage) {
+function getCategoryByName(categoryName, page, categoriesInPage) {
     const offset = categoriesInPage * (page - 1);
     const limit = categoriesInPage;
     return Author.findAll({
@@ -57,7 +57,7 @@ function editCategory(editedFields, categoryId) {
 }
 
 module.exports = {
-    findCategoryByName,
+    getCategoryByName,
     getAllCategories,
     createCategory,
     editCategory
