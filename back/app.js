@@ -90,21 +90,21 @@ app.use('/admin/createCategory', async(req, res) => {
 // get author by name
 app.get('/getAuthorByName', async(req, res) => {
     console.log(req.query);
-    const authors = await userService.getAuthorByName(req.name, 1, 10);
+    const authors = await userService.getAuthorByName(req.body.name, 1, 10);
     res.send(authors);
 });
 
 // get author by nationality
 app.get('/getAuthorByNationality', async(req, res) => {
     console.log(req.query);
-    const authors = await userService.getAuthorByNationality(req.nationality, 1, 10);
+    const authors = await userService.getAuthorByNationality(req.body.nationality, 1, 10);
     res.send(authors);
 });
 
 // get category by name
 app.get('/getCategoryByName', async(req, res) => {
     console.log(req.query);
-    const categories = await userService.getCategoryByName(req.name, 1, 10);
+    const categories = await userService.getCategoryByName(req.body.name, 1, 10);
     res.send(categories);
 });
 
