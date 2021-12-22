@@ -12,6 +12,7 @@ const db = require("../back/config/database");
 
 //services Test
 const adminService = require("../back/services/adminService");
+const userService = require("../back/services/userService");
 // const authService = require("../back/services/authenticationService")
 
 // test database connection
@@ -24,28 +25,28 @@ app.use(bodyParser.json());
 // get all books
 app.get('/getAllBooks', async(req, res) => {
     console.log(req.query);
-    const allBooks = await adminService.getAllBooks(1, 10);
+    const allBooks = await userService.getAllBooks(1, 10);
     res.send(allBooks);
 });
 
 // get all authors
 app.get('/getAllAuthors', async(req, res) => {
     console.log(req.query);
-    const allAuthors = await adminService.getAllAuthors(1, 10);
+    const allAuthors = await userService.getAllAuthors(1, 10);
     res.send(allAuthors);
 });
 
 // get all publishers
 app.get('/getAllPublishers', async(req, res) => {
     console.log(req.query);
-    const allPublishers = await adminService.getAllPublishers(1, 10);
+    const allPublishers = await userService.getAllPublishers(1, 10);
     res.send(allPublishers);
 });
 
 // get all categories
 app.get('/getAllCategories', async(req, res) => {
     console.log(req.query);
-    const allCategories = await adminService.getAllCategories();
+    const allCategories = await userService.getAllCategories();
     res.send(allCategories);
 });
 
@@ -89,15 +90,22 @@ app.use('/admin/createCategory', async(req, res) => {
 // get author by name
 app.get('/getAuthorByName', async(req, res) => {
     console.log(req.query);
-    const allPublishers = await adminService.getAuthorByName(req.name, 1, 10);
-    res.send(allPublishers);
+    const authors = await userService.getAuthorByName(req.name, 1, 10);
+    res.send(authors);
+});
+
+// get author by nationality
+app.get('/getAuthorByNationality', async(req, res) => {
+    console.log(req.query);
+    const authors = await userService.getAuthorByNationality(req.nationality, 1, 10);
+    res.send(authors);
 });
 
 // get category by name
 app.get('/getCategoryByName', async(req, res) => {
     console.log(req.query);
-    const allPublishers = await adminService.getAllPublishers(req.name, 1, 10);
-    res.send(allPublishers);
+    const categories = await userService.getCategoryByName(req.name, 1, 10);
+    res.send(categories);
 });
 
 app.listen(port, () => {

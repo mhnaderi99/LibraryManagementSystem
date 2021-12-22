@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../../config/database');
 const Author = require('../../models/Author');
 
-function findAuthorByName(authorName, page, authorsInPage) {
+function getAuthorByName(authorName, page, authorsInPage) {
     const offset = authorsInPage * (page - 1);
     const limit = authorsInPage;
     const Op = Sequelize.Op;
@@ -28,7 +28,7 @@ function findAuthorByName(authorName, page, authorsInPage) {
         });
 }
 
-function findAuthorByNationality(authorNationality, page, authorsInPage) {
+function getAuthorByNationality(authorNationality, page, authorsInPage) {
     const offset = authorsInPage * (page - 1);
     const limit = authorsInPage;
     return Author.findAll({
@@ -87,8 +87,8 @@ function editAuthor(editedFields, authorId) {
 }
 
 module.exports = {
-    findAuthorByName,
-    findAuthorByNationality,
+    getAuthorByName,
+    getAuthorByNationality,
     getAllAuthors,
     createAuthor,
     editAuthor
