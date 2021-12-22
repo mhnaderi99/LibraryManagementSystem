@@ -3,6 +3,23 @@ const router = express.Router();
 const db = require('../../config/database');
 const Publisher = require('../../models/Publisher');
 
+function getPublisherByName(publisherName, page, publishersInPage) {
+    const offset = publishersInPage * (page - 1);
+    const limit = publishersInPage;
+    return Publisher.findAll({
+            offset: offset,
+            limit: limit,
+            where: { name: publisherName }
+        })
+        .then((foundPublisher) => {
+            return foundPublisher;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 function getAllPublishers(page, publishersInPage) {
     const offset = publishersInPage * (page - 1);
     const limit = publishersInPage;
@@ -33,7 +50,19 @@ function createPublisher(newPublisher) {
         });
 }
 
+function editPublisher(editedFields, publisherId) {
+    return Publisher.update(editedFields, { where: { id: publisherId } })
+        .then((editedPublisher) => {
+            return editedPublisher;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
 module.exports = {
+    getPublisherByName,
     getAllPublishers,
-    createPublisher
+    createPublisher,
+    editPublisher
 };

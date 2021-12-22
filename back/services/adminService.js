@@ -24,6 +24,16 @@ async function editAuthor(editedAuthor) {
     return await Authors.editAuthor(newAuthor, editedAuthor.id);
 }
 //
+// Publisher
+//
+async function createPublisher(newPublisher) {
+    return await Publishers.createAuthor(newPublisher);
+}
+async function editPublisher(editedPublisher) {
+    const { id, ...newPublisher } = editedPublisher;
+    return await Publishers.editAuthor(newPublisher, editedPublisher.id);
+}
+//
 // Category
 //
 async function createCategory(newCategory) {
@@ -38,6 +48,8 @@ module.exports = {
     editBook,
     createAuthor,
     editAuthor,
+    createPublisher,
+    editPublisher,
     createCategory,
     editCategory
 };

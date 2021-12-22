@@ -39,6 +39,9 @@ async function getAuthorByNationality(nationality, page, authorsInPage) {
 //
 // Publisher
 //
+async function getPublisherByName(name, page, authorsInPage) {
+    return await Publishers.getPublisherByName(name, page, authorsInPage);
+}
 async function getAllPublishers(page, publishersInPage) {
     return await Publishers.getAllPublishers(page, publishersInPage);
 }
@@ -62,6 +65,7 @@ module.exports = {
     getAllAuthors,
     getAuthorByName,
     getAuthorByNationality,
+    getPublisherByName,
     getAllPublishers,
     getAllCategories,
     getCategoryByName

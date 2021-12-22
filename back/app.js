@@ -103,6 +103,43 @@ app.use('/admin/editAuthor', async(req, res) => {
     }
 });
 //
+// Publisher
+//
+// create new publisher
+app.use('/admin/createBook', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newAuthor = await adminService.createPublisher(req.body);
+        res.send(newAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+// edit publisher
+app.use('/admin/editAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedAuthor = await adminService.editPublisher(req.body);
+        res.send(editedAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
 // Category
 //
 // create new category
@@ -214,6 +251,12 @@ app.get('/getAllPublishers', async(req, res) => {
     console.log(req.query);
     const allPublishers = await userService.getAllPublishers(1, 10);
     res.send(allPublishers);
+});
+// get publisher by name
+app.get('/getPublisherByName', async(req, res) => {
+    console.log(req.query);
+    const publishers = await userService.getPublisherByName(req.body.name, 1, 10);
+    res.send(publishers);
 });
 //
 // Category
