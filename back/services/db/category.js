@@ -56,9 +56,21 @@ function editCategory(editedFields, categoryId) {
         });
 }
 
+function deleteCategory(categoryId) {
+    return Category.destroy({ where: { id: categoryId } })
+        .then((deleteCategory) => {
+            return deleteCategory;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getCategoryByName,
     getAllCategories,
     createCategory,
-    editCategory
+    editCategory,
+    deleteCategory
 };

@@ -60,9 +60,22 @@ function editPublisher(editedFields, publisherId) {
             return null;
         });
 }
+
+function deletePublisher(publisherId) {
+    return Publisher.destroy({ where: { id: publisherId } })
+        .then((deletePublisher) => {
+            return deletePublisher;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getPublisherByName,
     getAllPublishers,
     createPublisher,
-    editPublisher
+    editPublisher,
+    deletePublisher
 };

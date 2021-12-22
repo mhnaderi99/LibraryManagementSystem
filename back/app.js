@@ -50,7 +50,7 @@ app.use('/admin/createBook', async(req, res) => {
 });
 
 // edit book
-app.use('/admin/editAuthor', async(req, res) => {
+app.use('/admin/editBook', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
@@ -58,6 +58,22 @@ app.use('/admin/editAuthor', async(req, res) => {
         //Admin access granted
         const editedBook = await adminService.editBook(req.body);
         res.send(editedBook);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+// delete book
+app.use('/admin/deleteBook', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const deleteBook = await adminService.deleteBook(req.body.id);
+        res.send(deleteBook);
 
     } else {
         // Access denied...
@@ -102,6 +118,22 @@ app.use('/admin/editAuthor', async(req, res) => {
         res.status(401).send('Authentication required.'); // custom message
     }
 });
+// delete author
+app.use('/admin/deleteAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const deleteAuthor = await adminService.deleteAuthor(req.body.id);
+        res.send(deleteAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
 //
 // Publisher
 //
@@ -132,6 +164,22 @@ app.use('/admin/editAuthor', async(req, res) => {
         //Admin access granted
         const editedAuthor = await adminService.editPublisher(req.body);
         res.send(editedAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+// delete publisher
+app.use('/admin/deletePublisher', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const deletePublisher = await adminService.deletePublisher(req.body.id);
+        res.send(deletePublisher);
 
     } else {
         // Access denied...
@@ -176,6 +224,22 @@ app.use('/admin/editCategory', async(req, res) => {
         res.status(401).send('Authentication required.'); // custom message
     }
 
+});
+// delete category
+app.use('/admin/deletePublisher', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const deleteCategory = await adminService.deleteCategory(req.body.id);
+        res.send(deleteCategory);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
 });
 /**
  * 

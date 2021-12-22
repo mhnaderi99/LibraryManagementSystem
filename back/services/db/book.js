@@ -43,37 +43,37 @@ function getBookByTitle(bookTitle, page, booksInPage) {
 function getBookByAuthor(bookAuthor, page, booksInPage) {
     const offset = booksInPage * (page - 1);
     const limit = booksInPage;
-    
-    return Asc.Book.findAll({
-        attributes: ["title", "ISBN", "author.firstname", "author.lastname" , "year"],
-        include: [{
-          model: Asc.Author,
-          required: true,
-          attributes: []
-         }],
-         raw: true,
-         where: {
-            [Sequelize.Op.or]: [{
-                '$author.firstname$': {
-                        [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
-                    }
-                },
-                {
-                '$author.lastname$': {
-                        [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
-                    }
-                }
-            ]
 
-        }
-      }).then(foundBooks => {
-        console.log(foundBooks)
-        return foundBooks;
-      })
-      .catch(err => {
-        console.log(err);
-        return null;
-    });
+    return Asc.Book.findAll({
+            attributes: ["title", "ISBN", "author.firstname", "author.lastname", "year"],
+            include: [{
+                model: Asc.Author,
+                required: true,
+                attributes: []
+            }],
+            raw: true,
+            where: {
+                [Sequelize.Op.or]: [{
+                        '$author.firstname$': {
+                            [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
+                        }
+                    },
+                    {
+                        '$author.lastname$': {
+                            [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
+                        }
+                    }
+                ]
+
+            }
+        }).then(foundBooks => {
+            console.log(foundBooks)
+            return foundBooks;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
 }
 
 function getBookByCategory(bookCategory, page, booksInPage) {
@@ -128,6 +128,17 @@ function editBook(editedFields, bookId) {
         });
 }
 
+function deleteBook(bookId) {
+    return Book.destroy({ where: { id: bookId } })
+        .then((deleteBook) => {
+            return deleteBook;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getAllBooks,
     getBookByTitle,
@@ -136,5 +147,6 @@ module.exports = {
     getBookByPublisher,
     getBookByYear,
     createBook,
-    editBook
+    editBook,
+    deleteBook
 };

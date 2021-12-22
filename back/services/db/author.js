@@ -93,10 +93,22 @@ function editAuthor(editedFields, authorId) {
         });
 }
 
+function deleteAuthor(AuthorId) {
+    return Author.destroy({ where: { id: AuthorId } })
+        .then((deletedAuthor) => {
+            return deletedAuthor;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getAuthorByName,
     getAuthorByNationality,
     getAllAuthors,
     createAuthor,
-    editAuthor
+    editAuthor,
+    deleteAuthor
 };
