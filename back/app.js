@@ -56,8 +56,8 @@ app.use('/admin/createAuthor', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const newCategory = await adminService.createAuthor(req.body);
-        res.send(newCategory);
+        const newAuthor = await adminService.createAuthor(req.body);
+        res.send(newAuthor);
 
     } else {
         // Access denied...
@@ -86,8 +86,19 @@ app.use('/admin/createCategory', async(req, res) => {
 
 });
 
+// get author by name
+app.get('/getAuthorByName', async(req, res) => {
+    console.log(req.query);
+    const allPublishers = await adminService.getAuthorByName(req.name, 1, 10);
+    res.send(allPublishers);
+});
 
-
+// get category by name
+app.get('/getCategoryByName', async(req, res) => {
+    console.log(req.query);
+    const allPublishers = await adminService.getAllPublishers(req.name, 1, 10);
+    res.send(allPublishers);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

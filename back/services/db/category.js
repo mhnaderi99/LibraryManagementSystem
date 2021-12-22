@@ -3,6 +3,23 @@ const router = express.Router();
 const db = require('../../config/database');
 const Category = require('../../models/Category');
 
+function findCategoryByName(categoryName, page, categoriesInPage) {
+    const offset = categoriesInPage * (page - 1);
+    const limit = categoriesInPage;
+    return Author.findAll({
+            offset: offset,
+            limit: limit,
+            where: { name: categoryName }
+        })
+        .then((foundCategory) => {
+            return foundCategory;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 function getAllCategories() {
     return Category.findAll({
             order: [
@@ -40,6 +57,7 @@ function editCategory(editedFields, categoryId) {
 }
 
 module.exports = {
+    findCategoryByName,
     getAllCategories,
     createCategory,
     editCategory
