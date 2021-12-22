@@ -12,12 +12,18 @@ function getAuthorByName(authorName, page, authorsInPage) {
             offset: offset,
             limit: limit,
             where: {
-                firstname: {
-                    [Op.like]: '%' + authorName + '%'
-                },
-                lastname: {
-                    [Op.like]: '%' + authorName + '%'
-                }
+                $or: [{
+                        firstname: {
+                            [Op.like]: '%' + authorName + '%'
+                        }
+                    },
+                    {
+                        lastname: {
+                            [Op.like]: '%' + authorName + '%'
+                        }
+                    }
+                ]
+
             }
         })
         .then((foundAuthor) => {
