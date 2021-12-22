@@ -138,7 +138,7 @@ app.use('/admin/deleteAuthor', async(req, res) => {
 // Publisher
 //
 // create new publisher
-app.use('/admin/createBook', async(req, res) => {
+app.use('/admin/createPublisher', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
@@ -156,7 +156,7 @@ app.use('/admin/createBook', async(req, res) => {
 });
 
 // edit publisher
-app.use('/admin/editAuthor', async(req, res) => {
+app.use('/admin/editPublisher', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
@@ -226,7 +226,7 @@ app.use('/admin/editCategory', async(req, res) => {
 
 });
 // delete category
-app.use('/admin/deletePublisher', async(req, res) => {
+app.use('/admin/deleteCategory', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
