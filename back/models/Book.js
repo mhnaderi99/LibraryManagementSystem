@@ -10,7 +10,11 @@ const Book = db.define('books', {
         type: Sequelize.INTEGER
     },
 
-    genre_id: {
+    category_id: {
+        type: Sequelize.INTEGER
+    },
+
+    ISBN: {
         type: Sequelize.INTEGER
     },
 
@@ -23,14 +27,6 @@ const Book = db.define('books', {
     },
 
     year: {
-        type: Sequelize.INTEGER
-    },
-
-    translator: {
-        type: Sequelize.STRING
-    },
-
-    loan_period: {
         type: Sequelize.INTEGER
     },
 
