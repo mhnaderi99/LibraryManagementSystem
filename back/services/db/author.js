@@ -5,13 +5,14 @@ const Author = require('../../models/Author');
 const Sequelize = require("sequelize");
 
 function getAuthorByName(authorName, page, authorsInPage) {
+    console.log(authorName)
     const offset = authorsInPage * (page - 1);
     const limit = authorsInPage;
     return Author.findAll({
             offset: offset,
             limit: limit,
             where: {
-                $or: [{
+                [Sequelize.Op.or]: [{
                         firstname: {
                             [Sequelize.Op.iLike]: "%" + authorName + "%"
                         }
