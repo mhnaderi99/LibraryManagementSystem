@@ -27,6 +27,44 @@ app.use(bodyParser.json());
  * Admin services
  * 
  */
+
+//
+// Book
+//
+// create new book
+app.use('/admin/createBook', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newBook = await adminService.createBook(req.body);
+        res.send(newBook);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+// edit book
+app.use('/admin/editAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedBook = await adminService.editBook(req.body);
+        res.send(editedBook);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
 //
 // Author
 //
@@ -115,6 +153,36 @@ app.get('/getAllBooks', async(req, res) => {
     console.log(req.query);
     const allBooks = await userService.getAllBooks(1, 10);
     res.send(allBooks);
+});
+// get book by title
+app.get('/getBookByTitle', async(req, res) => {
+    console.log(req.query);
+    const books = await userService.getBookByTitle(req.body.title, 1, 10);
+    res.send(books);
+});
+// get book by author
+app.get('/getBookByAuthor', async(req, res) => {
+    console.log(req.query);
+    const books = await userService.getBookByAuthor(req.body.author, 1, 10);
+    res.send(books);
+});
+// get book by category
+app.get('/getBookByCategory', async(req, res) => {
+    console.log(req.query);
+    const books = await userService.getBookByCategory(req.body.category, 1, 10);
+    res.send(books);
+});
+// get book by publisher
+app.get('/getBookByPublisher', async(req, res) => {
+    console.log(req.query);
+    const books = await userService.getBookByPublisher(req.body.publisher, 1, 10);
+    res.send(books);
+});
+// get book by year
+app.get('/getBookByYear', async(req, res) => {
+    console.log(req.query);
+    const books = await userService.getBookByYear(req.body.year, 1, 10);
+    res.send(books);
 });
 //
 // Author

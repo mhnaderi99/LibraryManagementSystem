@@ -21,6 +21,57 @@ function getAllBooks(page, booksInPage) {
         });
 }
 
+function getBookByTitle(bookTitle, page, booksInPage) {
+    const offset = booksInPage * (page - 1);
+    const limit = booksInPage;
+    return Book.findAll({
+            offset: offset,
+            limit: limit,
+            where: { title: bookTitle }
+        })
+        .then((foundBook) => {
+            return foundBook;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
+function getBookByAuthor(bookAuthor, page, booksInPage) {
+    const offset = booksInPage * (page - 1);
+    const limit = booksInPage;
+    // TODO
+}
+
+function getBookByCategory(bookCategory, page, booksInPage) {
+    const offset = booksInPage * (page - 1);
+    const limit = booksInPage;
+    // TODO
+}
+
+function getBookByPublisher(bookPublisher, page, booksInPage) {
+    const offset = booksInPage * (page - 1);
+    const limit = booksInPage;
+    // TODO
+}
+
+function getBookByYear(bookYear, page, booksInPage) {
+    const offset = booksInPage * (page - 1);
+    const limit = booksInPage;
+    return Book.findAll({
+            offset: offset,
+            limit: limit,
+            where: { year: bookYear }
+        })
+        .then((foundBook) => {
+            return foundBook;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
 
 function createBook(newBook) {
     return Book.create(newBook)
@@ -34,7 +85,24 @@ function createBook(newBook) {
         });
 }
 
+function editBook(editedFields, bookId) {
+    return Book.update(editedFields, { where: { id: bookId } })
+        .then((editedBook) => {
+            return editedBook;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getAllBooks,
-    createBook
+    getBookByTitle,
+    getBookByAuthor,
+    getBookByCategory,
+    getBookByPublisher,
+    getBookByYear,
+    createBook,
+    editBook
 };
