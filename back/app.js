@@ -49,6 +49,24 @@ app.get('/getAllCategories', async(req, res) => {
     res.send(allCategories);
 });
 
+// create new author
+app.use('/admin/createAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newCategory = await adminService.createAuthor(req.body);
+        res.send(newCategory);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
 
 // create new category
 app.use('/admin/createCategory', async(req, res) => {

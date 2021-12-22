@@ -16,7 +16,6 @@ function getAllCategories() {
         });
 }
 
-
 function createCategory(newCategory) {
     return Category.create(newCategory)
         .then((createdCategory) => {
@@ -29,7 +28,19 @@ function createCategory(newCategory) {
         });
 }
 
+function editCategory(editedFields, categoryId) {
+    return Category.update(editedFields, { where: { id: categoryId } })
+        .then((editedCategory) => {
+            return editedCategory;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+}
+
 module.exports = {
     getAllCategories,
-    createCategory
+    createCategory,
+    editCategory
 };

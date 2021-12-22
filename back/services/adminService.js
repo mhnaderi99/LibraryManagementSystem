@@ -11,6 +11,11 @@ async function getAllAuthors(page, authorsInPage) {
     return await Authors.getAllAuthors(page, authorsInPage);
 }
 
+async function createAuthor(newAuthor) {
+    return await Authors.createAuthor(newAuthor);
+}
+
+
 async function getAllPublishers(page, publishersInPage) {
     return await Publishers.getAllPublishers(page, publishersInPage);
 }
@@ -26,6 +31,7 @@ async function createCategory(newCategory) {
 module.exports = {
     getAllBooks,
     getAllAuthors,
+    createAuthor,
     getAllCategories,
     getAllPublishers,
     createCategory
