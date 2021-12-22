@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../config/database');
 const Author = require('../../models/Author');
+const Sequelize = require("sequelize");
 
 function getAuthorByName(authorName, page, authorsInPage) {
     const offset = authorsInPage * (page - 1);
