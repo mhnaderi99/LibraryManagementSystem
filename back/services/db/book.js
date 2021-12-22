@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../config/database');
 const Book = require('../../models/Book');
+const Sequelize = require("sequelize");
+const Asc = require("../../models/associations")
 
 function getAllBooks(page, booksInPage) {
     const offset = booksInPage * (page - 1);
@@ -41,7 +43,37 @@ function getBookByTitle(bookTitle, page, booksInPage) {
 function getBookByAuthor(bookAuthor, page, booksInPage) {
     const offset = booksInPage * (page - 1);
     const limit = booksInPage;
-    // TODO
+    
+    return Asc.Book.findAll({
+        attributes: ["title", "ISBN", "author.firstname", "author.lastname" , "year"],
+        include: [{
+          model: Asc.Author,
+          required: true,
+          attributes: []
+         }],
+         raw: true,
+         where: {
+            [Sequelize.Op.or]: [{
+                '$author.firstname$': {
+                        [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
+                    }
+                },
+                {
+                '$author.lastname$': {
+                        [Sequelize.Op.iLike]: "%" + bookAuthor + "%"
+                    }
+                }
+            ]
+
+        }
+      }).then(foundBooks => {
+        console.log(foundBooks)
+        return foundBooks;
+      })
+      .catch(err => {
+        console.log(err);
+        return null;
+    });
 }
 
 function getBookByCategory(bookCategory, page, booksInPage) {
