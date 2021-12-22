@@ -6,14 +6,16 @@ const Publishers = require('./db/publisher');
 async function createAuthor(newAuthor) {
     return await Authors.createAuthor(newAuthor);
 }
-async function editAuthor(authorId, editedAuthor) {
-    return await Authors.editAuthor(editedAuthor, authorId);
+async function editAuthor(editedAuthor) {
+    const { id, ...newAuthor } = editedAuthor;
+    return await Authors.editAuthor(newAuthor, editedAuthor.id);
 }
 async function createCategory(newCategory) {
     return await Categories.createCategory(newCategory);
 }
-async function editCategory(categoryId, editedCategory) {
-    return await Categories.editCategory(editedCategory, categoryId);
+async function editCategory(editedCategory) {
+    const { id, ...newCategory } = editedCategory;
+    return await Categories.editCategory(newCategory, editedCategory.id);
 }
 module.exports = {
     createAuthor,

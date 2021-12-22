@@ -55,7 +55,7 @@ app.use('/admin/editAuthor', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const editedAuthor = await adminService.editAuthor(req.body.updatedFields, req.body.id);
+        const editedAuthor = await adminService.editAuthor(req.body);
         res.send(editedAuthor);
 
     } else {
@@ -74,7 +74,7 @@ app.use('/admin/createCategory', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const newCategory = await adminService.createCategory(req.body.updatedFields, req.body.id);
+        const newCategory = await adminService.createCategory(req.body);
         res.send(newCategory);
 
     } else {
