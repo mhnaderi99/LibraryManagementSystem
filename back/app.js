@@ -22,34 +22,14 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// get all books
-app.get('/getAllBooks', async(req, res) => {
-    console.log(req.query);
-    const allBooks = await userService.getAllBooks(1, 10);
-    res.send(allBooks);
-});
-
-// get all authors
-app.get('/getAllAuthors', async(req, res) => {
-    console.log(req.query);
-    const allAuthors = await userService.getAllAuthors(1, 10);
-    res.send(allAuthors);
-});
-
-// get all publishers
-app.get('/getAllPublishers', async(req, res) => {
-    console.log(req.query);
-    const allPublishers = await userService.getAllPublishers(1, 10);
-    res.send(allPublishers);
-});
-
-// get all categories
-app.get('/getAllCategories', async(req, res) => {
-    console.log(req.query);
-    const allCategories = await userService.getAllCategories();
-    res.send(allCategories);
-});
-
+/**
+ * 
+ * Admin services
+ * 
+ */
+//
+// Author
+//
 // create new author
 app.use('/admin/createAuthor', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
@@ -68,7 +48,25 @@ app.use('/admin/createAuthor', async(req, res) => {
 
 });
 
+// edit author
+app.use('/admin/editAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedAuthor = await adminService.editAuthor(req.body);
+        res.send(editedAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
+// Category
+//
 // create new category
 app.use('/admin/createCategory', async(req, res) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
@@ -87,6 +85,46 @@ app.use('/admin/createCategory', async(req, res) => {
 
 });
 
+// edit category
+app.use('/admin/editCategory', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedCategory = await adminService.editCategory(req.body);
+        res.send(editedCategory);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+/**
+ * 
+ * User services
+ * 
+ */
+//
+// Book
+//
+// get all books
+app.get('/getAllBooks', async(req, res) => {
+    console.log(req.query);
+    const allBooks = await userService.getAllBooks(1, 10);
+    res.send(allBooks);
+});
+//
+// Author
+//
+// get all authors
+app.get('/getAllAuthors', async(req, res) => {
+    console.log(req.query);
+    const allAuthors = await userService.getAllAuthors(1, 10);
+    res.send(allAuthors);
+});
 // get author by name
 app.get('/getAuthorByName', async(req, res) => {
     console.log(req.query);
@@ -100,13 +138,33 @@ app.get('/getAuthorByNationality', async(req, res) => {
     const authors = await userService.getAuthorByNationality(req.body.nationality, 1, 10);
     res.send(authors);
 });
-
+//
+// publisher
+//
+// get all publishers
+app.get('/getAllPublishers', async(req, res) => {
+    console.log(req.query);
+    const allPublishers = await userService.getAllPublishers(1, 10);
+    res.send(allPublishers);
+});
+//
+// Category
+//
+// get all categories
+app.get('/getAllCategories', async(req, res) => {
+    console.log(req.query);
+    const allCategories = await userService.getAllCategories();
+    res.send(allCategories);
+});
 // get category by name
 app.get('/getCategoryByName', async(req, res) => {
     console.log(req.query);
     const categories = await userService.getCategoryByName(req.body.name, 1, 10);
     res.send(categories);
 });
+
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
