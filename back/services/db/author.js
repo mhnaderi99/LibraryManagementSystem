@@ -14,12 +14,12 @@ function getAuthorByName(authorName, page, authorsInPage) {
             where: {
                 $or: [{
                         firstname: {
-                            [Op.like]: '%' + authorName + '%'
+                            [Op.iLike]: '%' + authorName + '%'
                         }
                     },
                     {
                         lastname: {
-                            [Op.like]: '%' + authorName + '%'
+                            [Op.iLike]: '%' + authorName + '%'
                         }
                     }
                 ]
