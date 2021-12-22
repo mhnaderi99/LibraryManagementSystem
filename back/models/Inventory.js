@@ -14,6 +14,10 @@ const Inventory = db.define('inventories', {
         type: Sequelize.INTEGER
     },
 
+    is_available: {
+        type: Sequelize.BOOLEAN
+    },
+
     createdat: {
         type: Sequelize.DATE
     },
