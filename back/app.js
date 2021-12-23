@@ -66,14 +66,15 @@ app.use('/admin/editBook', async(req, res) => {
     }
 });
 // delete book
-app.use('/admin/deleteBook', async(req, res) => {
+app.use('/admin/deleteBook', async(req, res, next) => {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteBook = await adminService.deleteBook(req.body.id);
-        res.send(deleteBook);
+        res.status(200);
+        res.send(deleteBook.toString());
 
     } else {
         // Access denied...
@@ -126,7 +127,7 @@ app.use('/admin/deleteAuthor', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteAuthor = await adminService.deleteAuthor(req.body.id);
-        res.send(deleteAuthor);
+        res.send(deleteAuthor.toString());
 
     } else {
         // Access denied...
@@ -179,7 +180,7 @@ app.use('/admin/deletePublisher', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deletePublisher = await adminService.deletePublisher(req.body.id);
-        res.send(deletePublisher);
+        res.send(deletePublisher.toString());
 
     } else {
         // Access denied...
@@ -233,7 +234,7 @@ app.use('/admin/deleteCategory', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteCategory = await adminService.deleteCategory(req.body.id);
-        res.send(deleteCategory);
+        res.send(deleteCategory.toString());
 
     } else {
         // Access denied...
@@ -288,7 +289,7 @@ app.use('/admin/deleteUser', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteUser = await adminService.deleteUser(req.body.id);
-        res.send(deleteUser);
+        res.send(deleteUser.toString());
 
     } else {
         // Access denied...
@@ -344,7 +345,7 @@ app.use('/admin/deleteInventoryItem', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deletedItem = await adminService.deleteInventoryItem(req.body.id);
-        res.send(deletedItem);
+        res.send(deletedItem.toString());
 
     } else {
         // Access denied...
