@@ -4,6 +4,7 @@ const Categories = require('./db/category');
 const Publishers = require('./db/publisher');
 const Users = require('./db/user');
 const Inventories = require('./db/inventory');
+const Payments = require('./db/payment');
 
 //
 // Book
@@ -83,6 +84,14 @@ async function editInventoryItem(editedItem) {
 async function deleteInventoryItem(itemId) {
     return await Inventories.deleteInventoryItem(itemId);
 }
+
+//
+// Payment
+//
+async function createPayment(newPayment) {
+    return await Payments.createPayment(newPayment);
+}
+
 module.exports = {
     createBook,
     editBook,
@@ -101,5 +110,6 @@ module.exports = {
     deleteUser,
     createInventoryItem,
     editInventoryItem,
-    deleteInventoryItem
+    deleteInventoryItem,
+    createPayment,
 };

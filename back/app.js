@@ -144,8 +144,8 @@ app.use('/admin/createPublisher', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const newAuthor = await adminService.createPublisher(req.body);
-        res.send(newAuthor);
+        const newPublisher = await adminService.createPublisher(req.body);
+        res.send(newPublisher);
 
     } else {
         // Access denied...
@@ -162,8 +162,8 @@ app.use('/admin/editPublisher', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const editedAuthor = await adminService.editPublisher(req.body);
-        res.send(editedAuthor);
+        const editedPublisher = await adminService.editPublisher(req.body);
+        res.send(editedPublisher);
 
     } else {
         // Access denied...
@@ -307,8 +307,8 @@ app.use('/admin/createInventoryItem', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const newUser = await adminService.createInventoryItem(req.body);
-        res.send(newUser);
+        const newItem = await adminService.createInventoryItem(req.body);
+        res.send(newItem);
 
     } else {
         // Access denied...
@@ -325,8 +325,8 @@ app.use('/admin/editInventoryItem', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const editedUser = await adminService.editInventoryItem(req.body);
-        res.send(editedUser);
+        const editedItem = await adminService.editInventoryItem(req.body);
+        res.send(editedItem);
 
     } else {
         // Access denied...
@@ -343,8 +343,8 @@ app.use('/admin/deleteInventoryItem', async(req, res) => {
 
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
-        const deleteUser = await adminService.deleteInventoryItem(req.body.id);
-        res.send(deleteUser);
+        const deletedItem = await adminService.deleteInventoryItem(req.body.id);
+        res.send(deletedItem);
 
     } else {
         // Access denied...
@@ -352,6 +352,29 @@ app.use('/admin/deleteInventoryItem', async(req, res) => {
         res.status(401).send('Authentication required.'); // custom message
     }
 });
+
+//
+// Payment
+//
+// create new payment
+app.use('/admin/createPayment', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newPayment = await adminService.createPayment(req.body);
+        res.send(newPayment);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+
 /**
  * 
  * User services
