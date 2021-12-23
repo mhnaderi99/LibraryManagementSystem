@@ -2,6 +2,7 @@ const Books = require('./db/book');
 const Authors = require('./db/author');
 const Categories = require('./db/category');
 const Publishers = require('./db/publisher');
+const Users = require('./db/user');
 
 //
 // Book
@@ -55,7 +56,19 @@ async function editCategory(editedCategory) {
 async function deleteCategory(categoryId) {
     return await Categories.deleteCategory(categoryId);
 }
-
+//
+// User
+//
+async function createUser(newUser) {
+    return await Users.createCategory(newUser);
+}
+async function editUser(editedUser) {
+    const { id, ...newUser } = editedUser;
+    return await Users.editCategory(newUser, editedUser.id);
+}
+async function deleteUser(userId) {
+    return await Users.deleteCategory(userId);
+}
 module.exports = {
     createBook,
     editBook,
@@ -68,5 +81,8 @@ module.exports = {
     deletePublisher,
     createCategory,
     editCategory,
-    deleteCategory
+    deleteCategory,
+    createUser,
+    editUser,
+    deleteUser
 };
