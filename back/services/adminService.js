@@ -5,6 +5,7 @@ const Publishers = require('./db/publisher');
 const Users = require('./db/user');
 const Inventories = require('./db/inventory');
 const Payments = require('./db/payment');
+const Penalties = require('./db/penalty');
 
 //
 // Book
@@ -36,11 +37,11 @@ async function deleteAuthor(authorId) {
 // Publisher
 //
 async function createPublisher(newPublisher) {
-    return await Publishers.createAuthor(newPublisher);
+    return await Publishers.createPublisher(newPublisher);
 }
 async function editPublisher(editedPublisher) {
     const { id, ...newPublisher } = editedPublisher;
-    return await Publishers.editAuthor(newPublisher, editedPublisher.id);
+    return await Publishers.editPublisher(newPublisher, editedPublisher.id);
 }
 async function deletePublisher(publisherId) {
     return await Publishers.deletePublisher(publisherId);
@@ -62,14 +63,14 @@ async function deleteCategory(categoryId) {
 // User
 //
 async function createUser(newUser) {
-    return await Users.createCategory(newUser);
+    return await Users.createUser(newUser);
 }
 async function editUser(editedUser) {
     const { id, ...newUser } = editedUser;
-    return await Users.editCategory(newUser, editedUser.id);
+    return await Users.editUser(newUser, editedUser.id);
 }
 async function deleteUser(userId) {
-    return await Users.deleteCategory(userId);
+    return await Users.deleteUser(userId);
 }
 //
 // Inventory
@@ -92,6 +93,16 @@ async function createPayment(newPayment) {
     return await Payments.createPayment(newPayment);
 }
 
+//
+// Penalty
+//
+async function createPenalty(newPenalty) {
+    return await Penalties.createPenalty(newPenalty);
+}
+async function editPenalty(editedPenalty) {
+    const { id, ...newPenalty } = editedPenalty;
+    return await Penalties.editPenalty(newPenalty, editedPenalty.id);
+}
 module.exports = {
     createBook,
     editBook,
@@ -112,4 +123,6 @@ module.exports = {
     editInventoryItem,
     deleteInventoryItem,
     createPayment,
+    createPenalty,
+    editPenalty
 };
