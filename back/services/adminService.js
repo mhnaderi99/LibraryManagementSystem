@@ -6,6 +6,7 @@ const Users = require('./db/user');
 const Inventories = require('./db/inventory');
 const Payments = require('./db/payment');
 const Penalties = require('./db/penalty');
+const Subscriptions = require('./db/subscription');
 
 //
 // Book
@@ -103,6 +104,17 @@ async function editPenalty(editedPenalty) {
     const { id, ...newPenalty } = editedPenalty;
     return await Penalties.editPenalty(newPenalty, editedPenalty.id);
 }
+
+//
+// Subscription
+//
+async function createSubscription(newSubscriptions) {
+    return await Subscriptions.createSubscription(newSubscriptions);
+}
+async function editSubscription(editedSubscriptions) {
+    const { id, ...newSubscriptions } = editedSubscriptions;
+    return await Subscriptions.editSubscription(newSubscriptions, editedSubscriptions.id);
+}
 module.exports = {
     createBook,
     editBook,
@@ -124,5 +136,7 @@ module.exports = {
     deleteInventoryItem,
     createPayment,
     createPenalty,
-    editPenalty
+    editPenalty,
+    createSubscription,
+    editSubscription
 };

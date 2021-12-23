@@ -28,7 +28,7 @@ function editUser(editedFields, userId) {
 }
 
 function deleteUser(userId) {
-    return Author.destroy({ where: { id: userId } })
+    return User.destroy({ where: { id: userId } })
         .then((deletedUser) => {
             return deletedUser;
         })
