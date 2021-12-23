@@ -296,6 +296,62 @@ app.use('/admin/deleteUser', async(req, res) => {
         res.status(401).send('Authentication required.'); // custom message
     }
 });
+
+//
+// Inventory
+//
+// create new inventory item
+app.use('/admin/createInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newUser = await adminService.createInventoryItem(req.body);
+        res.send(newUser);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+// edit inventory item
+app.use('/admin/editInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedUser = await adminService.editInventoryItem(req.body);
+        res.send(editedUser);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+// delete inventory item
+app.use('/admin/deleteInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const deleteUser = await adminService.deleteInventoryItem(req.body.id);
+        res.send(deleteUser);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
 /**
  * 
  * User services

@@ -3,6 +3,7 @@ const Authors = require('./db/author');
 const Categories = require('./db/category');
 const Publishers = require('./db/publisher');
 const Users = require('./db/user');
+const Inventories = require('./db/inventory');
 
 //
 // Book
@@ -69,6 +70,19 @@ async function editUser(editedUser) {
 async function deleteUser(userId) {
     return await Users.deleteCategory(userId);
 }
+//
+// Inventory
+//
+async function createInventoryItem(newItem) {
+    return await Inventories.createInventoryItem(newItem);
+}
+async function editInventoryItem(editedItem) {
+    const { id, ...newItem } = editedItem;
+    return await Inventories.editInventoryItem(newItem, editedItem.id);
+}
+async function deleteInventoryItem(itemId) {
+    return await Inventories.deleteInventoryItem(itemId);
+}
 module.exports = {
     createBook,
     editBook,
@@ -84,5 +98,8 @@ module.exports = {
     deleteCategory,
     createUser,
     editUser,
-    deleteUser
+    deleteUser,
+    createInventoryItem,
+    editInventoryItem,
+    deleteInventoryItem
 };
