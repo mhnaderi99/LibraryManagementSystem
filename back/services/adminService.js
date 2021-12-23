@@ -7,6 +7,7 @@ const Inventories = require('./db/inventory');
 const Payments = require('./db/payment');
 const Penalties = require('./db/penalty');
 const Subscriptions = require('./db/subscription');
+const Records = require('./db/record');
 
 //
 // Book
@@ -115,6 +116,17 @@ async function editSubscription(editedSubscriptions) {
     const { id, ...newSubscriptions } = editedSubscriptions;
     return await Subscriptions.editSubscription(newSubscriptions, editedSubscriptions.id);
 }
+
+//
+// Record
+//
+async function createRecord(newRecord) {
+    return await Records.createRecord(newRecord);
+}
+async function editRecord(editedRecord) {
+    const { id, ...newRecord } = editedRecord;
+    return await Records.editRecord(newRecord, editedRecord.id);
+}
 module.exports = {
     createBook,
     editBook,
@@ -138,5 +150,7 @@ module.exports = {
     createPenalty,
     editPenalty,
     createSubscription,
-    editSubscription
+    editSubscription,
+    createRecord,
+    editRecord
 };

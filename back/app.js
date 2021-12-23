@@ -449,6 +449,44 @@ app.use('/admin/editSubscription', async(req, res) => {
     }
 
 });
+//
+// Record
+//
+// create new record
+app.use('/admin/createRecord', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const newRecord = await adminService.createRecord(req.body);
+        res.send(newRecord);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+// edit record
+app.use('/admin/editRecord', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === auth.login && password === auth.password) {
+        //Admin access granted
+        const editedRecord = await adminService.editRecord(req.body);
+        res.send(editedRecord);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
 /**
  * 
  * User services
