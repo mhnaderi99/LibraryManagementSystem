@@ -17,7 +17,10 @@ const unregistered_user_db = require("../back/config/unregistered_user_db");
 
 //services Test
 const adminService = require("../back/services/adminService");
-const userService = require("../back/services/userService");
+const librarianService = require("../back/services/librarianService");
+const managerService = require("../back/services/managerService");
+const registeredUserService = require("./services/registeredUserService");
+const unregisteredUserService = require("./services/unregisteredUserService");
 // const authService = require("../back/services/authenticationService")
 
 // test database connection
@@ -509,37 +512,37 @@ app.use('/admin/editRecord', async(req, res) => {
 // get all books
 app.get('/getAllBooks', async(req, res) => {
     console.log(req.query);
-    const allBooks = await userService.getAllBooks(1, 10);
+    const allBooks = await registeredUserService.getAllBooks(1, 10);
     res.send(allBooks);
 });
 // get book by title
 app.get('/getBookByTitle', async(req, res) => {
     console.log(req.query);
-    const books = await userService.getBookByTitle(req.body.title, 1, 10);
+    const books = await registeredUserService.getBookByTitle(req.body.title, 1, 10);
     res.send(books);
 });
 // get book by author
 app.get('/getBookByAuthor', async(req, res) => {
     console.log(req.query);
-    const books = await userService.getBookByAuthor(req.body.author, 1, 10);
+    const books = await registeredUserService.getBookByAuthor(req.body.author, 1, 10);
     res.send(books);
 });
 // get book by category
 app.get('/getBookByCategory', async(req, res) => {
     console.log(req.query);
-    const books = await userService.getBookByCategory(req.body.category, 1, 10);
+    const books = await registeredUserService.getBookByCategory(req.body.category, 1, 10);
     res.send(books);
 });
 // get book by publisher
 app.get('/getBookByPublisher', async(req, res) => {
     console.log(req.query);
-    const books = await userService.getBookByPublisher(req.body.publisher, 1, 10);
+    const books = await registeredUserService.getBookByPublisher(req.body.publisher, 1, 10);
     res.send(books);
 });
 // get book by year
 app.get('/getBookByYear', async(req, res) => {
     console.log(req.query);
-    const books = await userService.getBookByYear(req.body.year, 1, 10);
+    const books = await registeredUserService.getBookByYear(req.body.year, 1, 10);
     res.send(books);
 });
 //
@@ -548,20 +551,20 @@ app.get('/getBookByYear', async(req, res) => {
 // get all authors
 app.get('/getAllAuthors', async(req, res) => {
     console.log(req.query);
-    const allAuthors = await userService.getAllAuthors(1, 10);
+    const allAuthors = await registeredUserService.getAllAuthors(1, 10);
     res.send(allAuthors);
 });
 // get author by name
 app.get('/getAuthorByName', async(req, res) => {
     console.log(req.query);
-    const authors = await userService.getAuthorByName(req.body.name, 1, 10);
+    const authors = await registeredUserService.getAuthorByName(req.body.name, 1, 10);
     res.send(authors);
 });
 
 // get author by nationality
 app.get('/getAuthorByNationality', async(req, res) => {
     console.log(req.query);
-    const authors = await userService.getAuthorByNationality(req.body.nationality, 1, 10);
+    const authors = await registeredUserService.getAuthorByNationality(req.body.nationality, 1, 10);
     res.send(authors);
 });
 //
@@ -570,13 +573,13 @@ app.get('/getAuthorByNationality', async(req, res) => {
 // get all publishers
 app.get('/getAllPublishers', async(req, res) => {
     console.log(req.query);
-    const allPublishers = await userService.getAllPublishers(1, 10);
+    const allPublishers = await registeredUserService.getAllPublishers(1, 10);
     res.send(allPublishers);
 });
 // get publisher by name
 app.get('/getPublisherByName', async(req, res) => {
     console.log(req.query);
-    const publishers = await userService.getPublisherByName(req.body.name, 1, 10);
+    const publishers = await registeredUserService.getPublisherByName(req.body.name, 1, 10);
     res.send(publishers);
 });
 //
@@ -585,13 +588,13 @@ app.get('/getPublisherByName', async(req, res) => {
 // get all categories
 app.get('/getAllCategories', async(req, res) => {
     console.log(req.query);
-    const allCategories = await userService.getAllCategories();
+    const allCategories = await registeredUserService.getAllCategories();
     res.send(allCategories);
 });
 // get category by name
 app.get('/getCategoryByName', async(req, res) => {
     console.log(req.query);
-    const categories = await userService.getCategoryByName(req.body.name, 1, 10);
+    const categories = await registeredUserService.getCategoryByName(req.body.name, 1, 10);
     res.send(categories);
 });
 
