@@ -9,6 +9,11 @@ const auth = { login: 'admin', password: 'password' };
 
 // DB
 const db = require("../back/config/database");
+const library_admin_db = require("../back/config/library_admin_db");
+const library_manager_db = require("../back/config/library_manager_db");
+const librarian_db = require("../back/config/librarian_db");
+const registered_user_db = require("../back/config/registered_user_db");
+const unregistered_user_db = require("../back/config/unregistered_user_db");
 
 //services Test
 const adminService = require("../back/services/adminService");
@@ -17,6 +22,11 @@ const userService = require("../back/services/userService");
 
 // test database connection
 db.authenticate().then(() => console.log("Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
+library_admin_db.authenticate().then(() => console.log("library_admin_db: Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
+library_manager_db.authenticate().then(() => console.log("library_manager_db: Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
+librarian_db.authenticate().then(() => console.log("librarian_db: Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
+registered_user_db.authenticate().then(() => console.log("registered_user_db: Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
+unregistered_user_db.authenticate().then(() => console.log("unregistered_user_db: Khoda bozorge")).catch(err => console.log("Ghalat kardam " + err.message));
 
 const app = express();
 app.use(cors());
