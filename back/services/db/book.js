@@ -45,7 +45,7 @@ function getBookByAuthor(bookAuthor, page, booksInPage) {
     const limit = booksInPage;
 
     return Asc.Book.findAll({
-            attributes: ["title", "ISBN", "author.firstname", "author.lastname", "year"],
+            attributes: ["title", "isbn", "author.firstname", "author.lastname", "year"],
             include: [{
                 model: Asc.Author,
                 required: true,
@@ -79,7 +79,26 @@ function getBookByAuthor(bookAuthor, page, booksInPage) {
 function getBookByCategory(bookCategory, page, booksInPage) {
     const offset = booksInPage * (page - 1);
     const limit = booksInPage;
-    // TODO
+
+    return Asc.Book.findAll({
+            attributes: ["title", "isbn", "category.name", "year"],
+            include: [{
+                model: Asc.Category,
+                required: true,
+                attributes: []
+            }],
+            raw: true,
+            where: {
+                '$category.name$': bookCategory
+            }
+        }).then(foundBooks => {
+            console.log(foundBooks)
+            return foundBooks;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
 }
 
 function getBookByPublisher(bookPublisher, page, booksInPage) {
