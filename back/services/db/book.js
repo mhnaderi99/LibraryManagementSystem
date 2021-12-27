@@ -104,7 +104,26 @@ function getBookByCategory(bookCategory, page, booksInPage) {
 function getBookByPublisher(bookPublisher, page, booksInPage) {
     const offset = booksInPage * (page - 1);
     const limit = booksInPage;
-    // TODO
+
+    return Asc.Book.findAll({
+            attributes: ["title", "isbn", "publisher.name", "year"],
+            include: [{
+                model: Asc.Publisher,
+                required: true,
+                attributes: []
+            }],
+            raw: true,
+            where: {
+                '$publisher.name$': bookPublisher
+            }
+        }).then(foundBooks => {
+            console.log(foundBooks)
+            return foundBooks;
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
 }
 
 function getBookByYear(bookYear, page, booksInPage) {
