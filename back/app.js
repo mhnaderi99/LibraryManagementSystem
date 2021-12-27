@@ -632,8 +632,16 @@ app.get('/getCategoryByName', async(req, res) => {
     res.send(categories);
 });
 
-
-
+/**
+ * 
+ * Librarian services
+ * 
+ */
+// create new author
+app.use('/librarian/createMultipleInventories', async(req, res) => {
+    const newAuthor = await librarianService.createMultipleInventoriesForBook(req.body.bookId, req.body.quantity, req.body.loanPeriod, req.body.penalty);
+    res.send(newAuthor);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

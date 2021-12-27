@@ -8,6 +8,8 @@ const Payments = require('./db/payment');
 const Penalties = require('./db/penalty');
 const Subscriptions = require('./db/subscription');
 const Records = require('./db/record');
+const db = require("../config/librarian_db");
+
 
 //
 // Book
@@ -78,7 +80,10 @@ async function editUser(editedUser) {
 // Inventory
 //
 
-// TODO: create multiple inventories for a book
+async function createMultipleInventoriesForBook(book_id, quantity, loan_period, delay_penalty) {
+    const query = `CALL public.addsimilarinventories(${quantity},${book_id},${loan_period},${delay_penalty});`
+    return db.query(query);
+}
 
 async function createInventoryItem(newItem) {
     return await Inventories.createInventoryItem(newItem);
@@ -133,6 +138,7 @@ module.exports = {
     deleteCategory,
     createUser,
     editUser,
+    createMultipleInventoriesForBook,
     createInventoryItem,
     editInventoryItem,
     deleteInventoryItem,
