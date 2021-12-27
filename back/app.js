@@ -86,8 +86,13 @@ app.use('/admin/deleteBook', async(req, res, next) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteBook = await adminService.deleteBook(req.body.id);
-        res.status(200);
-        res.send(deleteBook.toString());
+        if (deleteBook != null && deleteBook != undefined) {
+            res.status(200);
+            res.send(deleteBook.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
 
     } else {
         // Access denied...
@@ -140,7 +145,13 @@ app.use('/admin/deleteAuthor', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteAuthor = await adminService.deleteAuthor(req.body.id);
-        res.send(deleteAuthor.toString());
+        if (deleteAuthor != null && deleteAuthor != undefined) {
+            res.status(200);
+            res.send(deleteAuthor.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
 
     } else {
         // Access denied...
@@ -193,7 +204,13 @@ app.use('/admin/deletePublisher', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deletePublisher = await adminService.deletePublisher(req.body.id);
-        res.send(deletePublisher.toString());
+        if (deletePublisher != null && deletePublisher != undefined) {
+            res.status(200);
+            res.send(deletePublisher.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
 
     } else {
         // Access denied...
@@ -247,8 +264,13 @@ app.use('/admin/deleteCategory', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteCategory = await adminService.deleteCategory(req.body.id);
-        res.send(deleteCategory.toString());
-
+        if (deleteCategory != null && deleteCategory != undefined) {
+            res.status(200);
+            res.send(deleteCategory.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
     } else {
         // Access denied...
         res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
@@ -302,7 +324,13 @@ app.use('/admin/deleteUser', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deleteUser = await adminService.deleteUser(req.body.id);
-        res.send(deleteUser.toString());
+        if (deleteUser != null && deleteUser != undefined) {
+            res.status(200);
+            res.send(deleteUser.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
 
     } else {
         // Access denied...
@@ -358,7 +386,13 @@ app.use('/admin/deleteInventoryItem', async(req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
         //Admin access granted
         const deletedItem = await adminService.deleteInventoryItem(req.body.id);
-        res.send(deletedItem.toString());
+        if (deletedItem != null && deletedItem != undefined) {
+            res.status(200);
+            res.send(deletedItem.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
 
     } else {
         // Access denied...
