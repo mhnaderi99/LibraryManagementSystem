@@ -637,10 +637,27 @@ app.get('/getCategoryByName', async(req, res) => {
  * Librarian services
  * 
  */
-// create new author
+// Create Multiple Inventories
 app.use('/librarian/createMultipleInventories', async(req, res) => {
-    const newAuthor = await librarianService.createMultipleInventoriesForBook(req.body.bookId, req.body.quantity, req.body.loanPeriod, req.body.penalty);
-    res.send(newAuthor);
+    const response = await librarianService.createMultipleInventoriesForBook(req.body.bookId, req.body.quantity, req.body.loanPeriod, req.body.penalty);
+    res.send(response);
+});
+
+/**
+ * 
+ * Registered User services
+ * 
+ */
+// Borrow Book
+app.use('/registeredUser/borrowBook', async(req, res) => {
+    const response = await registeredUserService.borrowBook(req.body.inventoryId, req.body.userId);
+    res.send(response);
+});
+
+// Return Book
+app.use('/registeredUser/returnBook', async(req, res) => {
+    const response = await registeredUserService.returnBook(req.body.inventoryId, req.body.userId);
+    res.send(response);
 });
 
 app.listen(port, () => {
