@@ -1581,19 +1581,36 @@ app.use('/librarian/createMultipleInventories', async(req, res) => {
  */
 // Borrow Book
 app.use('/registeredUser/borrowBook', async(req, res) => {
-    const response = await registeredUserService.borrowBook(req.body.inventoryId, req.body.userId);
-    res.send(response);
-});
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
+    if (login && password && login === userAuth.login && password === userAuth.password) {
+        const response = await registeredUserService.borrowBook(req.body.inventoryId, req.body.userId);
+        res.send(response);
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
 // Return Book
 app.use('/registeredUser/returnBook', async(req, res) => {
-    const response = await registeredUserService.returnBook(req.body.inventoryId, req.body.userId);
-    res.send(response);
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === userAuth.login && password === userAuth.password) {
+        const response = await registeredUserService.returnBook(req.body.inventoryId, req.body.userId);
+        res.send(response);
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
 });
 
 /**
  * 
- * User services
+ * untegistered User services (available to all)
  * 
  */
 //
@@ -1650,7 +1667,6 @@ app.get('/getAuthorByName', async(req, res) => {
     const authors = await registeredUserService.getAuthorByName(req.body.name, 1, 10);
     res.send(authors);
 });
-
 // get author by nationality
 app.get('/getAuthorByNationality', async(req, res) => {
     console.log(req.query);
