@@ -127,8 +127,116 @@ async function editRecord(editedRecord) {
     const { id, ...newRecord } = editedRecord;
     return await Records.editRecord(newRecord, editedRecord.id);
 }
+//
+// managerial reports
+//
+// Most popular books
+async function getMostPopularBooks() {
+    const query = `SELECT books.title, count(books.id) from (SELECT records.id as record_id, records.inventory_id, inventories.book_id FROM records inner join inventories
+        on records.inventory_id = inventories.id
+        where borrow_date > '2020-12-21' and borrow_date < '2021-12-28') as tmp
+        inner join books on tmp.book_id = books.id group by books.id order by count desc;`;
+    return db.query(query);
+}
+// Most popular authors
+async function getMostPopularAuthors() {
+    const query = `SELECT concat(authors.firstname, ' ', authors.lastname) as author_name, count(id) from (SELECT books.id as book_id, books.author_id from (SELECT records.id as record_id, records.inventory_id, inventories.book_id FROM records inner join inventories
+        on records.inventory_id = inventories.id
+        where borrow_date > '2020-12-21' and borrow_date < '2021-12-28') as tmp
+        inner join books on tmp.book_id = books.id) as tmp2 inner join authors on tmp2.author_id = authors.id
+        group by id order by count desc;`;
+    return db.query(query);
+}
 
-// TODO: managerial reports
+// Income report in by date
+async function getIncomeReport() {
+    const query = `select extract (year from payment_date) as yyear,
+    extract (month from payment_date) as mmonth,
+    extract (day from payment_date) as dday,
+    sum (amount)
+    from payments
+    group by rollup(yyear, mmonth, dday);`;
+    return db.query(query);
+}
+
+// Most active users
+async function getMostActiveUsers() {
+    const query = `select users.id, concat(users.firstname, ' ', users.lastname) as name, count(users.id) from (select subscriptions.user_id from records inner join subscriptions
+        on records.subscription_id = subscriptions.id) as tmp inner join users
+        on tmp.user_id = users.id group by (users.id) order by count desc;`;
+    return db.query(query);
+}
+
+// Most popular categories
+async function getMostPopularCategories() {
+    const query = `SELECT categories.name, count(id) from (SELECT books.id as book_id, books.category_id from (SELECT records.id as record_id, records.inventory_id, inventories.book_id FROM records inner join inventories
+        on records.inventory_id = inventories.id
+        where borrow_date > '2020-12-21' and borrow_date < '2021-12-28') as tmp
+        inner join books on tmp.book_id = books.id) as tmp2 inner join categories on tmp2.category_id = categories.id
+        group by id order by count desc;`;
+    return db.query(query);
+}
+
+// Most popular publishers
+async function getMostPopularPublishers() {
+    const query = `SELECT publishers.name, count(id) from (SELECT books.id as book_id, books.publisher_id from (SELECT records.id as record_id, records.inventory_id, inventories.book_id FROM records inner join inventories
+        on records.inventory_id = inventories.id
+        where borrow_date > '2020-12-21' and borrow_date < '2021-12-28') as tmp
+        inner join books on tmp.book_id = books.id) as tmp2 inner join publishers on tmp2.publisher_id = publishers.id
+        group by id order by count desc;`;
+    return db.query(query);
+}
+
+// average time taken from people to read each book
+async function getAverageTimeToReadBook() {
+    const query = `select tmp.book_id, books.title, avg(tmp.time) over(
+        partition by tmp.book_id
+    )
+    from (select inventories.book_id, extract(day from records.return_date - records.borrow_date) as time from records inner join inventories
+    on records.inventory_id = inventories.id) as tmp inner join books on tmp.book_id = books.id;`;
+    return db.query(query);
+}
+
+// Users with unreturned books + sum of penalty so far
+async function getUnreturnedBooksAndPenalties() {
+    const query = `select user_id, name, sum(penalty_so_far) as penalty_sum from 
+    (select users.id as user_id, 
+           concat(users.firstname, ' ', users.lastname) as name,
+           inventories.id as inventory_id,
+           books.title,
+           records.borrow_date,
+           records.borrow_date + (interval '1' day * inventories.loan_period) as due_date,
+           extract (day from current_timestamp - (records.borrow_date + (interval '1' day * inventories.loan_period))) as days_late,
+           extract (day from current_timestamp - (records.borrow_date + (interval '1' day * inventories.loan_period))) * inventories.delay_penalty as penalty_so_far
+    from users inner join subscriptions on subscriptions.user_id = users.id
+    inner join records on records.subscription_id = subscriptions.id
+    inner join inventories on records.inventory_id = inventories.id
+    inner join books on inventories.book_id = books.id
+    where return_date is null and
+    records.borrow_date + (interval '1' day * inventories.loan_period) < current_timestamp)
+    
+    group by (user_id, name);`;
+    return db.query(query);
+}
+
+// Unreturned books + details
+async function getUnreturnedBooksDetails() {
+    const query = `select inventories.id as inventory_id,
+    books.title as book_title,
+    users.id as user_id, 
+    concat(users.firstname, ' ', users.lastname) as name,
+    records.borrow_date,
+    records.borrow_date + (interval '1' day * inventories.loan_period) as due_date,
+    extract (day from current_timestamp - (records.borrow_date + (interval '1' day * inventories.loan_period))) as days_late
+from users inner join subscriptions on subscriptions.user_id = users.id
+inner join records on records.subscription_id = subscriptions.id
+inner join inventories on records.inventory_id = inventories.id
+inner join books on inventories.book_id = books.id
+where return_date is null and
+records.borrow_date + (interval '1' day * inventories.loan_period) < current_timestamp`;
+    return db.query(query);
+}
+
 module.exports = {
     createBook,
     editBook,
@@ -154,5 +262,14 @@ module.exports = {
     createSubscription,
     editSubscription,
     createRecord,
-    editRecord
+    editRecord,
+    getMostPopularBooks,
+    getMostPopularAuthors,
+    getIncomeReport,
+    getMostActiveUsers,
+    getMostPopularCategories,
+    getMostPopularPublishers,
+    getAverageTimeToReadBook,
+    getUnreturnedBooksAndPenalties,
+    getUnreturnedBooksDetails
 };
