@@ -1619,37 +1619,37 @@ app.use('/registeredUser/returnBook', async(req, res) => {
 // get all books
 app.get('/getAllBooks', async(req, res) => {
     console.log(req.query);
-    const allBooks = await registeredUserService.getAllBooks(1, 10);
+    const allBooks = await unregisteredUserService.getAllBooks(1, 10);
     res.send(allBooks);
 });
 // get book by title
 app.get('/getBookByTitle', async(req, res) => {
     console.log(req.query);
-    const books = await registeredUserService.getBookByTitle(req.body.title, 1, 10);
+    const books = await unregisteredUserService.getBookByTitle(req.body.title, 1, 10);
     res.send(books);
 });
 // get book by author
 app.get('/getBookByAuthor', async(req, res) => {
     console.log(req.query);
-    const books = await registeredUserService.getBookByAuthor(req.body.author, 1, 10);
+    const books = await unregisteredUserService.getBookByAuthor(req.body.author, 1, 10);
     res.send(books);
 });
 // get book by category
 app.get('/getBookByCategory', async(req, res) => {
     console.log(req.query);
-    const books = await registeredUserService.getBookByCategory(req.body.category, 1, 10);
+    const books = await unregisteredUserService.getBookByCategory(req.body.category, 1, 10);
     res.send(books);
 });
 // get book by publisher
 app.get('/getBookByPublisher', async(req, res) => {
     console.log(req.query);
-    const books = await registeredUserService.getBookByPublisher(req.body.publisher, 1, 10);
+    const books = await unregisteredUserService.getBookByPublisher(req.body.publisher, 1, 10);
     res.send(books);
 });
 // get book by year
 app.get('/getBookByYear', async(req, res) => {
     console.log(req.query);
-    const books = await registeredUserService.getBookByYear(req.body.year, 1, 10);
+    const books = await unregisteredUserService.getBookByYear(req.body.year, 1, 10);
     res.send(books);
 });
 //
@@ -1658,19 +1658,19 @@ app.get('/getBookByYear', async(req, res) => {
 // get all authors
 app.get('/getAllAuthors', async(req, res) => {
     console.log(req.query);
-    const allAuthors = await registeredUserService.getAllAuthors(1, 10);
+    const allAuthors = await unregisteredUserService.getAllAuthors(1, 10);
     res.send(allAuthors);
 });
 // get author by name
 app.get('/getAuthorByName', async(req, res) => {
     console.log(req.query);
-    const authors = await registeredUserService.getAuthorByName(req.body.name, 1, 10);
+    const authors = await unregisteredUserService.getAuthorByName(req.body.name, 1, 10);
     res.send(authors);
 });
 // get author by nationality
 app.get('/getAuthorByNationality', async(req, res) => {
     console.log(req.query);
-    const authors = await registeredUserService.getAuthorByNationality(req.body.nationality, 1, 10);
+    const authors = await unregisteredUserService.getAuthorByNationality(req.body.nationality, 1, 10);
     res.send(authors);
 });
 //
@@ -1679,13 +1679,13 @@ app.get('/getAuthorByNationality', async(req, res) => {
 // get all publishers
 app.get('/getAllPublishers', async(req, res) => {
     console.log(req.query);
-    const allPublishers = await registeredUserService.getAllPublishers(1, 10);
+    const allPublishers = await unregisteredUserService.getAllPublishers(1, 10);
     res.send(allPublishers);
 });
 // get publisher by name
 app.get('/getPublisherByName', async(req, res) => {
     console.log(req.query);
-    const publishers = await registeredUserService.getPublisherByName(req.body.name, 1, 10);
+    const publishers = await unregisteredUserService.getPublisherByName(req.body.name, 1, 10);
     res.send(publishers);
 });
 //
@@ -1694,13 +1694,13 @@ app.get('/getPublisherByName', async(req, res) => {
 // get all categories
 app.get('/getAllCategories', async(req, res) => {
     console.log(req.query);
-    const allCategories = await registeredUserService.getAllCategories();
+    const allCategories = await unregisteredUserService.getAllCategories();
     res.send(allCategories);
 });
 // get category by name
 app.get('/getCategoryByName', async(req, res) => {
     console.log(req.query);
-    const categories = await registeredUserService.getCategoryByName(req.body.name, 1, 10);
+    const categories = await unregisteredUserService.getCategoryByName(req.body.name, 1, 10);
     res.send(categories);
 });
 
