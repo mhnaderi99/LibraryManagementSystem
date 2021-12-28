@@ -1152,10 +1152,426 @@ app.use('/manager/getUnreturnedBooksAndPenalties', async(req, res) => {
  * Librarian services
  * 
  */
+//
+// Book
+//
+// create new book
+app.use('/librarian/createBook', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newBook = await librarianService.createBook(req.body);
+        res.send(newBook);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit book
+app.use('/librarian/editBook', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        //Admin access granted
+        const editedBook = await librarianService.editBook(req.body);
+        res.send(editedBook);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+// delete book
+app.use('/librarian/deleteBook', async(req, res, next) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const deleteBook = await librarianService.deleteBook(req.body.id);
+        if (deleteBook != null && deleteBook != undefined) {
+            res.status(200);
+            res.send(deleteBook.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
+// Author
+//
+// create new author
+app.use('/librarian/createAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        //Admin access granted
+        const newAuthor = await librarianService.createAuthor(req.body);
+        res.send(newAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit author
+app.use('/librarian/editAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedAuthor = await librarianService.editAuthor(req.body);
+        res.send(editedAuthor);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+// delete author
+app.use('/librarian/deleteAuthor', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        //Admin access granted
+        const deleteAuthor = await librarianService.deleteAuthor(req.body.id);
+        if (deleteAuthor != null && deleteAuthor != undefined) {
+            res.status(200);
+            res.send(deleteAuthor.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
+// Publisher
+//
+// create new publisher
+app.use('/librarian/createPublisher', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newPublisher = await librarianService.createPublisher(req.body);
+        res.send(newPublisher);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit publisher
+app.use('/librarian/editPublisher', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedPublisher = await librarianService.editPublisher(req.body);
+        res.send(editedPublisher);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+// delete publisher
+app.use('/librarian/deletePublisher', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const deletePublisher = await librarianService.deletePublisher(req.body.id);
+        if (deletePublisher != null && deletePublisher != undefined) {
+            res.status(200);
+            res.send(deletePublisher.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
+// Category
+//
+// create new category
+app.use('/librarian/createCategory', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newCategory = await librarianService.createCategory(req.body);
+        res.send(newCategory);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit category
+app.use('/librarian/editCategory', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        //Admin access granted
+        const editedCategory = await librarianService.editCategory(req.body);
+        res.send(editedCategory);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// delete category
+app.use('/librarian/deleteCategory', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const deleteCategory = await librarianService.deleteCategory(req.body.id);
+        if (deleteCategory != null && deleteCategory != undefined) {
+            res.status(200);
+            res.send(deleteCategory.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+//
+// User
+//
+// create new user
+app.use('/librarian/createUser', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newUser = await librarianService.createUser(req.body);
+        res.send(newUser);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit user
+app.use('/librarian/editUser', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedUser = await librarianService.editUser(req.body);
+        res.send(editedUser);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+//
+// Inventory
+//
+// create new inventory item
+app.use('/librarian/createInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newItem = await librarianService.createInventoryItem(req.body);
+        res.send(newItem);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit inventory item
+app.use('/librarian/editInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedItem = await librarianService.editInventoryItem(req.body);
+        res.send(editedItem);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// delete inventory item
+app.use('/librarian/deleteInventoryItem', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const deletedItem = await librarianService.deleteInventoryItem(req.body.id);
+        if (deletedItem != null && deletedItem != undefined) {
+            res.status(200);
+            res.send(deletedItem.toString());
+        } else {
+            res.status(400);
+            res.send("null");
+        }
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+});
+
+//
+// Penalty
+//
+// create penalty
+app.use('/librarian/createPenalty', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newPenalty = await librarianService.createPenalty(req.body);
+        res.send(newPenalty);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit Penalty
+app.use('/librarian/editPenalty', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedPenalty = await librarianService.editPenalty(req.body);
+        res.send(editedPenalty);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+//
+// Subscription
+//
+// create new subscription
+app.use('/librarian/createSubscription', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newSubscription = await librarianService.createSubscription(req.body);
+        res.send(newSubscription);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+
+//
+// Record
+//
+// create new record
+app.use('/librarian/createRecord', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const newRecord = await librarianService.createRecord(req.body);
+        res.send(newRecord);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
+// edit record
+app.use('/librarian/editRecord', async(req, res) => {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const editedRecord = await librarianService.editRecord(req.body);
+        res.send(editedRecord);
+
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
+
+});
 // Create Multiple Inventories
 app.use('/librarian/createMultipleInventories', async(req, res) => {
-    const response = await librarianService.createMultipleInventoriesForBook(req.body.bookId, req.body.quantity, req.body.loanPeriod, req.body.penalty);
-    res.send(response);
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+    if (login && password && login === librarianAuth.login && password === librarianAuth.password) {
+        const response = await librarianService.createMultipleInventoriesForBook(req.body.bookId, req.body.quantity, req.body.loanPeriod, req.body.penalty);
+        res.send(response);
+    } else {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"'); // change this
+        res.status(401).send('Authentication required.'); // custom message
+    }
 });
 
 /**
